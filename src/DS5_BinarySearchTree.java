@@ -38,6 +38,13 @@ public class DS5_BinarySearchTree<E extends Comparable> implements DS5_BinarySea
             return "[]";
         return "["+inOrderHelper(root).substring(2)+"]";
     }
+    public String inOrderHelper(DS5_BinarySearchTree_Node<E> temp)
+    {
+        if(temp==null)
+            return "";
+        else
+            return inOrderHelper(temp.getLeft()) + ", " + temp.getData() + inOrderHelper(temp.getRight());
+    }
     public String postOrder()
     {
         if (root == null)
