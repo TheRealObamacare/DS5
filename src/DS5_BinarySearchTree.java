@@ -53,7 +53,7 @@ public class DS5_BinarySearchTree<E extends Comparable> implements DS5_BinarySea
         if(temp==null)
             return "";
         else
-            return ", "  + postOrderHelper(temp.getLeft()) + postOrderHelper(temp.getRight()) + temp.getData();
+            return   + postOrderHelper(temp.getLeft()) + postOrderHelper(temp.getRight()) +", " + temp.getData();
     }
     public E minValue()
     {
