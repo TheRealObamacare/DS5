@@ -496,7 +496,6 @@ public class DS5_BinarySearchTree_After_Adds_Tests
             Class<?> bst = Class.forName(generateClassName("DS5_BinarySearchTree"));
             Method postOrder = bst.getMethod("postOrder");
             Method getRoot = bst.getMethod("getRoot");
-
             for(int t=0; t<adds.length; t++)
             {
                 Object check =  bst.getConstructor().newInstance();

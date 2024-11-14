@@ -9,6 +9,7 @@ public interface DS5_BinarySearchTree_Interface<E extends Comparable>
     public E maxValue();
     public int nodeDepth(E value);
     public int height();
+    public int maxDepth();
     public void clear();
     public int size();
     public boolean isEmpty();
