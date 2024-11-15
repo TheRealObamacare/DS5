@@ -53,7 +53,7 @@ public class DS5_BinarySearchTree<E extends Comparable> implements DS5_BinarySea
         if(temp==null)
             return "";
         else
-            return   + postOrderHelper(temp.getLeft()) + postOrderHelper(temp.getRight()) +", " + temp.getData();
+            return  postOrderHelper(temp.getLeft()) + postOrderHelper(temp.getRight()) +", " + temp.getData();
     }
     public E minValue()
     {
@@ -79,7 +79,6 @@ public class DS5_BinarySearchTree<E extends Comparable> implements DS5_BinarySea
             return -1;
         if (root.getData().equals(value))
             return 0;
-        int ans = 0;
         int count = 0;
         DS5_BinarySearchTree_Node<E> temp = root;
         return findDepth(temp, value, count);
@@ -90,22 +89,24 @@ public class DS5_BinarySearchTree<E extends Comparable> implements DS5_BinarySea
             return -1;
         if (temp.getData().equals(value))
             return count;
-        if (temp.getData().compareTo(value) > 0)
-            return findDepth(temp.getLeft(), value, count+1);
-        else
-            return findDepth(temp.getRight(), value, count+1);
+        return Math.max(findDepth(temp.getLeft(), value, count+1), findDepth(temp.getRight(), value, count+1));
     }
     public int height()
     {
         if (root == null)
             return 0;
-        return heightHelper(root, 0);
+        int x = heightHelper(root, 1);
+        return x;
     }
     public int heightHelper(DS5_BinarySearchTree_Node<E> temp, int count)
     {
-        if (temp.getRight() == null || temp.getLeft() == null)
+        if (temp.getRight() == null && temp.getLeft() == null)
             return count;
-        return 1+Math.max(heightHelper(temp.getLeft(), count+1),heightHelper(temp.getRight(), count + 1));
+        if (temp.getLeft() == null)
+            return 1 + heightHelper(temp.getRight(), count+1);
+        if (temp.getRight() == null)
+            return 1 + heightHelper(temp.getLeft(), count+1);
+        return 1 + Math.min(heightHelper(temp.getLeft(), count+1),heightHelper(temp.getRight(), count + 1));
     }
     public int maxDepth()
     {
