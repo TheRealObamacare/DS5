@@ -95,18 +95,13 @@ public class DS5_BinarySearchTree<E extends Comparable> implements DS5_BinarySea
     {
         if (root == null)
             return 0;
-        int x = heightHelper(root, 1);
-        return x;
+        return heightHelper(root, 0);
     }
     public int heightHelper(DS5_BinarySearchTree_Node<E> temp, int count)
     {
-        if (temp.getRight() == null && temp.getLeft() == null)
-            return count;
-        if (temp.getLeft() == null)
-            return 1 + heightHelper(temp.getRight(), count+1);
-        if (temp.getRight() == null)
-            return 1 + heightHelper(temp.getLeft(), count+1);
-        return 1 + Math.min(heightHelper(temp.getLeft(), count+1),heightHelper(temp.getRight(), count + 1));
+        if (temp == null)
+            return 0;
+        return 1 + Math.max(heightHelper(temp.getLeft(), count+1),heightHelper(temp.getRight(), count + 1));
     }
     public int maxDepth()
     {
@@ -198,30 +193,72 @@ public class DS5_BinarySearchTree<E extends Comparable> implements DS5_BinarySea
     }
     public boolean remove(E data)
     {
-        if (root == null || !contains(data))
-            return false;
-        DS5_BinarySearchTree_Node<E> temp = getHelper(root, data);
-        return removeHelper(root, temp, data);
+        return removeHelper(get(data), data);
     }
-    public boolean removeHelper(DS5_BinarySearchTree_Node<E> temp, DS5_BinarySearchTree_Node<E> node, E data)
+    public boolean removeHelper(DS5_BinarySearchTree_Node<E> node, E data)
     {
-        if (temp == null)
+        if (node == null)
             return false;
-        if (temp.getRight() == node || temp.getLeft() == node)
-        {
-            if (temp.getRight() == node)
-            {
-                temp.setRight(null);
-            }
-            else
-            {
-                temp.setLeft(null);
-            }
-            return true;
-        }
-        if (temp.getData().compareTo(data) > 0)
-            return removeHelper(temp.getLeft(), node, data);
         else
-            return removeHelper(temp.getRight(), node, data);
+        {
+            if (node.getLeft() == null && node.getRight() == null)
+            {
+                node.setData(null);
+                return true;
+            }
+            if (node.getRight()!= null && node.getRight().getData().equals(data))
+            {
+                if (node.getRight() == null && node.getLeft() == null)
+                {
+                    node.setData(null);
+                    return true;
+                }
+                if (node.getRight() == null && node.getLeft() != null)
+                {
+                    node = node.getLeft();
+                    return true;
+                }
+                if (node.getRight().getRight() != null && node.getRight().getLeft() == null)
+                {
+                    node.setRight(node.getRight().getRight());
+                    return true;
+                }
+                if (node.getRight() != null)
+                {
+                    DS5_BinarySearchTree_Node<E> temp2 = node.getRight();
+                    while (temp2.getLeft() != null)
+                        temp2 = temp2.getLeft();
+                    node.getRight().setData(temp2.getData());
+                    return true;
+                }
+            }
+            else if (node.getLeft()!= null && node.getLeft().getData().equals(data))
+            {
+                if (node.getRight().getRight() == null && node.getRight().getLeft() == null)
+                {
+                    node.setLeft(null);
+                    return true;
+                }
+                if (node.getRight() == null && node.getLeft() != null)
+                {
+                    node.setLeft(node.getLeft());
+                    return true;
+                }
+                if (node.getRight().getRight() != null && node.getRight().getLeft() == null)
+                {
+                    node.setData(node.getRight());
+                    return true;
+                }
+                if (node.getRight() != null && node.getLeft() == null)
+                {
+                    DS5_BinarySearchTree_Node<E> temp2 = node.getRight();
+                    while (temp2.getLeft() != null)
+                        temp2 = temp2.getLeft();
+                    node.setData(temp2.getData());
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
